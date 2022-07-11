@@ -3,6 +3,7 @@ export class Task {
         this.title = title;
         this.description = description;
         this.priority = priority;
+        this.startWeek = startWeek;
         this.startDay = startDay;
         this.lastsDays = lastsDays;
     }

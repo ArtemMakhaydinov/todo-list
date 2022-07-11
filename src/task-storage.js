@@ -1,7 +1,7 @@
 import { findTaskPlace } from "./time-stuff.js";
 
 let taskStorage = [[], [], [], [], [], [], [],
-[], [], [], [], [], [], [],
+[], [], [], [], [{ title: 'test task', priority: 'high', }, { title: 'test task', priority: 'high', }, { title: 'test task', priority: 'low', }], [], [],
 [], [], [], [], [], [], []];
 
 export function addTask(obj) {
@@ -20,5 +20,5 @@ function calculateStorageIndex(dataWeek, dataDay) {
         return (dataDay + 6);
     } else if (dataWeek === 'next') {
         return (dataDay + 13);
-    }    
+    }
 }

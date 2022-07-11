@@ -1,7 +1,7 @@
 import { format, add, sub } from "date-fns/esm";
 
 const todayOfWeek = Number(format(new Date(), 'i'));
-const todayOfYear = Number(format(new Date(), 'D'));
+const todayOfYear = Number(format(new Date(), 'D', { useAdditionalDayOfYearTokens: true }));
 
 
 export function findTaskPlace(obj) {
@@ -11,7 +11,7 @@ export function findTaskPlace(obj) {
 
 export function calculateDate(dataWeek, dataDay) {
     dataDay = Number(dataDay);
-    let today = format(new Date(), 'EEEE d/M/yyyy');
+    let today = format(new Date(), 'EEEE dd/MM/yyyy');
     let daysFromToday;
 
     if (dataWeek === 'last') {
