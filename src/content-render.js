@@ -4,7 +4,7 @@ import { createDiv } from './html-elements';
 
 const content = document.querySelector('.content');
 
-export function renderContent(dataWeek, dataDay) {
+export function renderContent(dataWeek, dataDay) { //(str, num)
     clearContent();
     renderDate(dataWeek, dataDay);
     renderPriorityBlock('high');
@@ -37,9 +37,9 @@ function renderSingleTask(obj) {
     const lowPrio = document.querySelector('.content_low');
     let wrapper;
 
-    if (obj.priority === 'high') {
+    if (obj.highPriority) {
         wrapper = createDiv('content_task', highPrio);
-    } else if (obj.priority === 'low') {
+    } else if (!obj.highPriority) {
         wrapper = createDiv('content_task', lowPrio);
     }
 

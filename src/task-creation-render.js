@@ -1,4 +1,4 @@
-import { createDiv, createInput, createLabel, createForm, createTextarea, createSpan } from './html-elements';
+import { createDiv, createInput, createLabel, createTextarea } from './html-elements';
 import { clearContent } from './content-render';
 
 export function renderNewTaskForm() {
@@ -8,6 +8,14 @@ export function renderNewTaskForm() {
     renderDescriptionForm(form);
     renderDurationAndPriority(form);
     renderButtons(form);
+}
+
+export function createForm() {
+    const form = document.createElement('form');
+    const content = document.querySelector('.content');
+    form.classList.add('content_form');
+    content.appendChild(form);
+    return form;
 }
 
 function renderTitleForm(parent) {
@@ -24,7 +32,7 @@ function renderDescriptionForm(parent) {
 
 function renderDurationAndPriority(parent) {
     const div = createDiv('content_form_dur-and-prio', parent);
-    renderPriorityForm (div);
+    renderPriorityForm(div);
     renderDurationForm(div);
 }
 
@@ -36,7 +44,7 @@ function renderDurationForm(parent) {
     durationInput.setAttribute('min', 0);
 }
 
-function renderPriorityForm (parent) {
+function renderPriorityForm(parent) {
     const priorityDiv = createDiv('content_form_priority', parent);
     createLabel('content_form_priority_label', 'priority', 'High Priority', priorityDiv);
     const input = createInput('content_form_priority_input', 'priority', 'checkbox', priorityDiv);
@@ -45,11 +53,20 @@ function renderPriorityForm (parent) {
 
 function renderButtons(parent) {
     const buttonsDiv = createDiv('content_form_buttons', parent);
-    const submitButton = createDiv('content_form_button_submit', buttonsDiv);
-    const cancelButton = createDiv('content_form_button_cancel', buttonsDiv);
+    renderAddButton(buttonsDiv);
+    renderCancelButton(buttonsDiv);
+}
+
+function renderAddButton(parent) {
+    const submitButton = createDiv('content_form_button_submit', parent);
     submitButton.textContent = 'Add Task';
     submitButton.setAttribute('type', 'submit');
+    submitButton.setAttribute('id', 'submit');
+}
+
+function renderCancelButton(parent) {
+    const cancelButton = createDiv('content_form_button_cancel', parent);
     cancelButton.textContent = 'Cancel';
-    cancelButton.setAttribute('type', 'button')
-    // cancelButton.setAttribute('onclick', 'cancelNewBookForm()');
+    cancelButton.setAttribute('type', 'button');
+    cancelButton.setAttribute('id', 'cancel');
 }

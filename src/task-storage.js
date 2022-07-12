@@ -1,11 +1,12 @@
 import { findTaskPlace } from "./time-stuff.js";
 
 let taskStorage = [[], [], [], [], [], [], [],
-[], [], [], [], [{ title: 'test task', priority: 'high', }, { title: 'test task', priority: 'high', }, { title: 'test task', priority: 'low', }], [], [],
+[], [], [], [], [], [], [],
 [], [], [], [], [], [], []];
 
 export function addTask(obj) {
-    taskStorage[findTaskPlace(obj)].push(obj);
+    console.log(obj);
+    // taskStorage[findTaskPlace(obj)].push(obj);
 }
 
 export function getDayTasks(dataWeek, dataDay) {

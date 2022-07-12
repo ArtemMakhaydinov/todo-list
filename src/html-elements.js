@@ -23,14 +23,6 @@ export function createInput(inputClass, inputId, inputType, parent) {
     return input;
 }
 
-export function createForm() {
-    const form = document.createElement('form');
-    const content = document.querySelector('.content');
-    form.classList.add('content_form');
-    form.setAttribute('onsubmit', 'getFormData(); return false');
-    content.appendChild(form);
-    return form;
-}
 
 export function createTextarea(textareaClass, textareaId, parent) {
     const textarea = document.createElement('textarea');
@@ -42,10 +34,10 @@ export function createTextarea(textareaClass, textareaId, parent) {
     return textarea;
 }
 
-export function createSpan(spanClass, spanContent, parent) {
-    const span = document.createElement('span');
-    span.classList.add(spanClass);
-    span.textContent = spanContent;
-    parent.appendChild(span);
-    return span;
-}
+// export function createSpan(spanClass, spanContent, parent) {
+//     const span = document.createElement('span');
+//     span.classList.add(spanClass);
+//     span.textContent = spanContent;
+//     parent.appendChild(span);
+//     return span;
+// }
