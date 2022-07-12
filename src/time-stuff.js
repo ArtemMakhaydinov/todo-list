@@ -1,35 +1,27 @@
 import { format, add, sub } from "date-fns/esm";
 
-const dayOfWeek = Number(format(new Date(), 'e'));
-const weekOfYear = Number(format(new Date(), 'w')); //, { useAdditionalDayOfYearTokens: true }
-export let clickedDay;
+export const dayOfWeek = Number(format(new Date(), 'i'));
+export const weekOfYear = Number(format(new Date(), 'I')); //, { useAdditionalDayOfYearTokens: true }
 export let clickedWeek;
-
-
-export function findTaskPlace(obj) {
-    // const storageIndex = ;
-    console.log(obj);
-    return storageIndex;
-}
+export let clickedDay;
 
 export function calculateDate(dataWeek, dataDay) {
-    dataDay = Number(dataDay);
-    let today = format(new Date(), 'EEEE dd/MM/yyyy');
     let daysFromToday;
+    const weekDifference = dataWeek - weekOfYear;
 
-    if (dataWeek === 'last') {
+    if (weekDifference === -1) {
         daysFromToday = dataDay - dayOfWeek - 7;
-        return sub(today, {days : daysFromToday});
-    } else if (dataWeek === 'next') {
+    } else if (weekDifference === 1) {
         daysFromToday = dataDay - dayOfWeek + 7;
-        return add(today, {days : daysFromToday});
-    } else if (dataWeek === 'this') {
+    } else if (weekDifference === 0) {
         daysFromToday = dataDay - dayOfWeek;
-        return today;
     }
+
+    return format((add(new Date(), {days : daysFromToday})), 'EEEE dd/MM');
 }
 
 export function setClickedWeekDay(week, day) { //(str, num)
     clickedWeek = week;
     clickedDay = day;
+
 }

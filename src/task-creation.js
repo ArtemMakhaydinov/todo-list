@@ -1,12 +1,12 @@
-import { format } from "date-fns";
+import { clickedWeek, clickedDay } from "./time-stuff";
 
 export class Task {
-    constructor (title, description, highPriority, duration ,startWeek, startDay) {
+    constructor (title, description, highPriority, duration) {
         this.title = title;
         this.description = description;
         this.highPriority = highPriority;
         this.duration = duration;
-        this.startWeek = Number(format(new Date(), 'w'));
-        this.startDay = Number(format(new Date(), 'e'));
+        this.startWeek = clickedWeek;
+        this.startDay = clickedDay;
     }
 }

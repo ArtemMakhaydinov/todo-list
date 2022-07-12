@@ -1,4 +1,12 @@
-import { format } from 'date-fns';
+import { renderContent } from './content-render';
+import { setClickedWeekDay, weekOfYear, dayOfWeek } from './time-stuff';
+
+export function setNavbar() {
+    document.querySelectorAll('.last_week_day').forEach(day => day.dataset.week = weekOfYear - 1);
+    document.querySelectorAll('.this_week_day').forEach(day => day.dataset.week = weekOfYear);
+    document.querySelectorAll('.next_week_day').forEach(day => day.dataset.week = weekOfYear + 1);
+    showToday();
+}
 
 export function expandWeek() {
     collapseWeek();
@@ -12,16 +20,14 @@ function collapseWeek() {
     allDays.forEach(day => day.classList.remove('dropdown_show'));
 }
 
-export function showToday () {
-    const today = format(new Date(), 'i');
-    const thisWeekDays = document.querySelectorAll('.this_week_day');
-    thisWeekDays.forEach(day => {
+function showToday() {
+    document.querySelectorAll('.this_week_day').forEach(day => {
         day.classList.remove('today');
-        if(day.dataset.day === today && day.dataset.week === 'this') day.classList.add('today');
+        if (Number(day.dataset.day) === dayOfWeek) day.classList.add('today');
     });
 }
 
-export function handleDayClick () {
-    console.log(this.dataset.day);
-    console.log(this.dataset.week);
+export function handleDayClick() {
+    setClickedWeekDay(Number(this.dataset.week), Number(this.dataset.day));
+    renderContent(Number(this.dataset.week), Number(this.dataset.day));
 }

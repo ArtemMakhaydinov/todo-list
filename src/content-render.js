@@ -6,7 +6,7 @@ const content = document.querySelector('.content');
 
 export function renderContent(dataWeek, dataDay) { //(str, num)
     clearContent();
-    renderDate(dataWeek, dataDay);
+    renderHead(dataWeek, dataDay);
     renderPriorityBlock('high');
     renderPriorityBlock('low');
     renderTasks(dataWeek, dataDay);
@@ -18,9 +18,22 @@ export function clearContent() {
     }
 }
 
-function renderDate(dataWeek, dataDay) {
-    let div = createDiv('content_head', content);
+function renderHead (dataWeek, dataDay) {
+    const div = createDiv('content_head', content);
+    createDiv('content_head_blank', div)
+    renderDate (dataWeek, dataDay, div);
+    renderAddButton(div);
+}
+
+function renderDate(dataWeek, dataDay, parent) {
+    const div = createDiv('content_head_date', parent);
     div.textContent = calculateDate(dataWeek, dataDay);
+}
+
+function renderAddButton(parent) {
+    const button = createDiv('content_head_add-button', parent);
+    button.textContent = '+Add Task';
+    button.setAttribute('id', 'add')
 }
 
 function renderPriorityBlock(priority) {

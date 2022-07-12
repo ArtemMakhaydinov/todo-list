@@ -14,6 +14,7 @@ export function createForm() {
     const form = document.createElement('form');
     const content = document.querySelector('.content');
     form.classList.add('content_form');
+    form.setAttribute('onsubmit', 'return false');
     content.appendChild(form);
     return form;
 }
@@ -21,7 +22,8 @@ export function createForm() {
 function renderTitleForm(parent) {
     const titleDiv = createDiv('content_form_title', parent);
     createLabel('content_form_title_label', 'title', 'Title', titleDiv);
-    createInput('content_form_title_input', 'title', 'text', titleDiv);
+    const input = createInput('content_form_title_input', 'title', 'text', titleDiv);
+    input.setAttribute('required', '');
 }
 
 function renderDescriptionForm(parent) {
@@ -58,10 +60,8 @@ function renderButtons(parent) {
 }
 
 function renderAddButton(parent) {
-    const submitButton = createDiv('content_form_button_submit', parent);
-    submitButton.textContent = 'Add Task';
-    submitButton.setAttribute('type', 'submit');
-    submitButton.setAttribute('id', 'submit');
+    const submitButton = createInput('content_form_button_submit', 'submit', 'submit', parent);
+    submitButton.setAttribute('value', 'Add Task');
 }
 
 function renderCancelButton(parent) {
