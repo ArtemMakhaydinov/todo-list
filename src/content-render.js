@@ -4,21 +4,13 @@ import { Div } from './html-elements';
 
 export const content = document.querySelector('.content');
 
-export function renderContent() { //(str, num)
-    clearContent();
-    renderHead();
-    (new Div('content_high', content)).create();
-    (new Div('content_low', content)).create();
-    renderTasks();
-}
-
 export function clearContent() {
     while (content.firstChild) {
         content.firstChild.remove();
     }
 }
 
-function renderHead() {
+export function renderHead() {
     const div = (new Div('content_head', content)).create();
     const blank = (new Div('content_head_blank', div.element)).create();
     renderDate(div.element);
@@ -36,8 +28,8 @@ function renderAddButton(parent) {
     button.element.setAttribute('id', 'add')
 }
 
-function renderTasks() {
-    const dayTasks = getDayTasks(clickedWeek, clickedDay);
+export function renderTasks() {
+    const dayTasks = getDayTasks();
     dayTasks.forEach(task => renderSingleTask(task));
 }
 
@@ -61,15 +53,19 @@ function renderSingleTaskDiv(obj) {
 }
 
 function renderSingleTaskCheckbox(obj, parent) {
-    const div = (new Div('content_task_complete', parent)).create();
+    const div = (new Div('content_task_checkbox', parent)).create();
     div.element.setAttribute('data-index', obj.index);
     div.element.setAttribute('id', 'complete');
+    if (obj.complete) div.element.classList.add('checkbox_complete');
+    if (!obj.complete && obj.isExpired()) div.element.classList.add('checkbox_expired');
 }
 
 function renderSingleTaskTitle(obj, parent) {
     const div = (new Div('content_task_title', parent)).create();
     div.element.setAttribute('data-index', obj.index);
     div.element.textContent = obj.title;
+    if (obj.complete) div.element.classList.add('title_complete');
+    if (!obj.complete && obj.isExpired()) div.element.classList.add('title_expired');
 }
 
 function renderSingleTaskExpiration(obj, parent) {
@@ -78,6 +74,7 @@ function renderSingleTaskExpiration(obj, parent) {
 }
 
 function renderSingleTaskEditButton(obj, parent) {
+    if (obj.complete) return;
     const div = (new Div('content_task_edit', parent)).create();
     div.element.setAttribute('data-index', obj.index);
     div.element.setAttribute('id', 'edit');

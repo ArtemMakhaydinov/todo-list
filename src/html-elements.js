@@ -90,29 +90,3 @@ export class Input {
         this.parent.appendChild(this.element);
     }
 }
-
-export class Textarea {
-    constructor(textareaClass, textareaId, parent) {
-        this.textareaClass = textareaClass;
-        this.textareaId = textareaId;
-        this.parent = parent;
-    }
-    create() {
-        this.element = document.createElement('textarea');
-        this.addClass();
-        this.setAttribute();
-        this.append();
-        return this;
-    }
-    addClass() {
-        this.element.classList.add(this.textareaClass);
-    }
-    setAttribute() {
-        this.element.setAttribute('id', this.textareaId);
-        this.element.setAttribute('rows', 5);
-        this.element.setAttribute('cols', 20);
-    }
-    append() {
-        this.parent.appendChild(this.element);
-    }
-}

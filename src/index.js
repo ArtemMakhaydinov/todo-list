@@ -1,14 +1,13 @@
-import { expandWeek, handleDayClick, setNavbar } from './navbar.js';
-import { renderContent } from './content-render';
-import { renderNewTaskForm, renderEditTaskForm } from './task-creation-render';
-import { clickedDay, clickedWeek, dayOfWeek, setClickedWeekDay, weekOfYear } from './time-stuff.js';
-import { cancelForm, submitNewForm, submitEditForm } from './form';
-import { getTasksLocally, deleteTask, editTask } from './task-storage.js';
+import { setNavbar } from './navbar.js';
+import { dayOfWeek, setClickedWeekDay, weekOfYear } from './time-stuff.js';
+import { getTasksLocally, deleteTask } from './task-storage.js';
+import { handleCompleteClick, renderContent, expandWeek, handleDayClick, submitNewForm, 
+    submitEditForm, renderNewTaskForm, renderEditTaskForm } from './UI';
 
 document.onload = setClickedWeekDay(weekOfYear, dayOfWeek)
 document.onload = setNavbar();
 document.onload = getTasksLocally();
-document.onload = renderContent(weekOfYear, dayOfWeek);
+document.onload = renderContent();
 document.querySelectorAll('.dropdown').forEach(e => e.addEventListener('click', expandWeek));
 document.querySelectorAll('.dropdown_content').forEach(e => e.addEventListener('click', handleDayClick));
 document.addEventListener('click', function (event) {
@@ -18,15 +17,15 @@ document.addEventListener('click', function (event) {
     } else if (event.target && event.target.id === 'submit_edit' && title.value){
         submitEditForm(Number(event.target.dataset.index));
     } else if (event.target && event.target.id === 'cancel_form') {
-        cancelForm();
+        renderContent();
     } else if (event.target && event.target.id === 'add') {
         renderNewTaskForm();
     } else if (event.target && event.target.id === 'edit') {
         renderEditTaskForm(Number(event.target.dataset.index));
     } else if (event.target && event.target.id === 'delete') {
         deleteTask(Number(event.target.dataset.index));
-        renderContent(clickedWeek, clickedDay);
+        renderContent();
     } else if (event.target && event.target.id === 'complete') {
-        // handleCompleteClick()
+        handleCompleteClick(Number(event.target.dataset.index));
     }
 });

@@ -1,47 +1,18 @@
-import { Div, Form, Input, Label, Textarea } from './html-elements';
-import { clearContent } from './content-render';
+import { Div, Input, Label} from './html-elements';
 import { taskStorage } from './task-storage';
 
-export function renderNewTaskForm() {
-    clearContent();
-    const content = document.querySelector('.content');
-    const form = (new Form('content_form', content)).create();
-    renderTitleForm(form.element);
-    renderDescriptionForm(form.element);
-    renderDurationAndPriority(form.element);
-    renderButtons(form.element);
-}
-
-export function renderEditTaskForm(index) {
-    clearContent();
-    const content = document.querySelector('.content');
-    const form = (new Form('content_form', content)).create();
-    renderTitleForm(form.element, index);
-    renderDescriptionForm(form.element, index);
-    renderDurationAndPriority(form.element, index);
-    renderButtons(form.element, index);
-}
-
-function renderTitleForm(parent, index) {
+export function renderTitleForm(parent, index) {
     const div = (new Div('content_form_title', parent)).create();
     const label = (new Label('content_form_title_label', 'title', 'Title', div.element)).create();
     const input = (new Input('content_form_title_input', 'title', 'text', div.element)).create();
     input.element.setAttribute('required', '');
+    input.element.setAttribute('maxlength', '70');
     if (typeof index !== 'undefined') {
         input.element.value = taskStorage[index].title;
     }
 }
 
-function renderDescriptionForm(parent, index) {
-    const div = (new Div('content_form_description', parent)).create();
-    const label = (new Label('content_form_description_label', 'description', 'Description', div.element)).create();
-    const textarea = (new Textarea('content_form_description_input', 'description', div.element)).create();
-    if (typeof index !== 'undefined') {
-        textarea.element.value = taskStorage[index].description;
-    }
-}
-
-function renderDurationAndPriority(parent, index) {
+export function renderDurationAndPriority(parent, index) {
     const div = (new Div('content_form_dur-and-prio', parent)).create();
     renderPriorityForm(div.element, index);
     renderDurationForm(div.element, index);
@@ -68,7 +39,7 @@ function renderPriorityForm(parent, index) {
     }
 }
 
-function renderButtons(parent, index) {
+export function renderButtons(parent, index) {
     const div = (new Div('content_form_buttons', parent)).create();
     renderAddButton(div.element, index);
     renderCancelButton(div.element);

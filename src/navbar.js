@@ -8,14 +8,7 @@ export function setNavbar() {
     showToday();
 }
 
-export function expandWeek() {
-    collapseWeek();
-    const week = this.dataset.week;
-    const days = document.querySelectorAll(`.${week}_week_day`);
-    days.forEach(day => day.classList.add('dropdown_show'));
-}
-
-function collapseWeek() {
+export function collapseWeek() {
     const allDays = document.querySelectorAll('.dropdown_content');
     allDays.forEach(day => day.classList.remove('dropdown_show'));
 }
@@ -27,13 +20,7 @@ function showToday() {
     });
 }
 
-export function handleDayClick() {
-    setClickedWeekDay(Number(this.dataset.week), Number(this.dataset.day));
-    renderContent(Number(this.dataset.week), Number(this.dataset.day));
-    showClickedDay.call(this);
-}
-
-function showClickedDay() {
+export function showClickedDay() {
     document.querySelectorAll('.dropdown_content').forEach(day => {
         day.classList.remove('clicked')
     });
