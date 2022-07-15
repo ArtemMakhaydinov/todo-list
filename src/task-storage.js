@@ -1,5 +1,5 @@
 import { Sample } from "./task-creation";
-import { clickedDay, clickedWeek } from "./time-stuff";
+import { clickedDay, clickedWeek, weekOfYear } from "./time-stuff";
 
 export let taskStorage = [];
 
@@ -43,8 +43,10 @@ export function getTasksLocally() {
     
     if (savedTasks) {
         savedTasks.map(obj => {
+            if (((obj.startDay + obj.duration) / 7 + obj.startWeek) >= (weekOfYear - 1)) {
             const sample = new Sample;
             taskStorage.push(Object.assign(sample, obj));
+            }
         })
     }
 }
