@@ -26,6 +26,8 @@ export function setClickedWeekDay(week, day) {
 }
 
 export function calculateTaskDaysLeft(obj) {
-    const dayDifference = clickedDay - obj.startDay - (clickedWeek - obj.startWeek) * 7;
+    const dayDifference = clickedDay - obj.startDay + (clickedWeek - obj.startWeek) * 7;
+    console.log(obj.duration);
+    console.log(dayDifference);
     return obj.duration - dayDifference;
 }
