@@ -23,11 +23,19 @@ function collapseWeek() {
 function showToday() {
     document.querySelectorAll('.this_week_day').forEach(day => {
         day.classList.remove('today');
-        if (Number(day.dataset.day) === dayOfWeek) day.classList.add('today');
+        if (Number(day.dataset.day) === dayOfWeek) day.classList.add('today', 'clicked');
     });
 }
 
 export function handleDayClick() {
     setClickedWeekDay(Number(this.dataset.week), Number(this.dataset.day));
     renderContent(Number(this.dataset.week), Number(this.dataset.day));
+    showClickedDay.call(this);
+}
+
+function showClickedDay() {
+    document.querySelectorAll('.dropdown_content').forEach(day => {
+        day.classList.remove('clicked')
+    });
+    this.classList.add('clicked');
 }

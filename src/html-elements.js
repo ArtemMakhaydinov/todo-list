@@ -1,43 +1,118 @@
-export function createDiv(divClass, parent) {
-    const div = document.createElement('div');
-    div.classList.add(divClass);
-    parent.appendChild(div);
-    return div;
+export class Div {
+    constructor(divClass, parent) {
+        this.divClass = divClass;
+        this.parent = parent;
+    }
+    create() {
+        this.element = document.createElement('div');
+        this.addClass();
+        this.append();
+        return this;
+    }
+    addClass() {
+        this.element.classList.add(this.divClass);
+    }
+    append() {
+        this.parent.appendChild(this.element);
+    }
 }
 
-export function createLabel(labelClass, forInput, text, parent) {
-    const label = document.createElement('label');
-    label.classList.add(labelClass);
-    label.setAttribute('for', forInput);
-    label.textContent = text;
-    parent.appendChild(label);
-    return label;
+export class Form {
+    constructor(formClass, parent) {
+        this.formClass = formClass;
+        this.parent = parent;
+    }
+    create() {
+        this.element = document.createElement('form');
+        this.addClass();
+        this.append();
+        return this;
+    }
+    addClass() {
+        this.element.classList.add(this.formClass);
+    }
+    append() {
+        this.parent.appendChild(this.element);
+    }
 }
 
-export function createInput(inputClass, inputId, inputType, parent) {
-    const input = document.createElement('input');
-    input.classList.add(inputClass);
-    input.setAttribute('id', inputId);
-    input.setAttribute('type', inputType);
-    parent.appendChild(input);
-    return input;
+export class Label {
+    constructor(labelClass, forInput, text, parent) {
+        this.labelClass = labelClass;
+        this.forInput = forInput;
+        this.text = text;
+        this.parent = parent;
+    }
+    create() {
+        this.element = document.createElement('label');
+        this.addClass();
+        this.setAttribute();
+        this.setTextContent();
+        this.append();
+        return this;
+    }
+    addClass() {
+        this.element.classList.add(this.labelClass);
+    }
+    setAttribute() {
+        this.element.setAttribute('for', this.forInput);
+    }
+    setTextContent() {
+        this.element.textContent = this.text;
+    }
+    append() {
+        this.parent.appendChild(this.element);
+    }
 }
 
-
-export function createTextarea(textareaClass, textareaId, parent) {
-    const textarea = document.createElement('textarea');
-    textarea.classList.add(textareaClass);
-    textarea.setAttribute('id', textareaId);
-    textarea.setAttribute('rows', 5);
-    textarea.setAttribute('cols', 20);
-    parent.appendChild(textarea);
-    return textarea;
+export class Input {
+    constructor(inputClass, inputId, inputType, parent) {
+        this.inputClass = inputClass;
+        this.inputId = inputId;
+        this.inputType = inputType;
+        this.parent = parent;
+    }
+    create() {
+        this.element = document.createElement('input');
+        this.addClass();
+        this.setAttribute();
+        this.append();
+        return this;
+    }
+    addClass() {
+        this.element.classList.add(this.inputClass);
+    }
+    setAttribute() {
+        this.element.setAttribute('id', this.inputId);
+        this.element.setAttribute('type', this.inputType);
+    }
+    append() {
+        this.parent.appendChild(this.element);
+    }
 }
 
-// export function createSpan(spanClass, spanContent, parent) {
-//     const span = document.createElement('span');
-//     span.classList.add(spanClass);
-//     span.textContent = spanContent;
-//     parent.appendChild(span);
-//     return span;
-// }
+export class Textarea {
+    constructor(textareaClass, textareaId, parent) {
+        this.textareaClass = textareaClass;
+        this.textareaId = textareaId;
+        this.parent = parent;
+    }
+    create() {
+        this.element = document.createElement('textarea');
+        this.addClass();
+        this.setAttribute();
+        this.append();
+        return this;
+    }
+    addClass() {
+        this.element.classList.add(this.textareaClass);
+    }
+    setAttribute() {
+        this.element.setAttribute('id', this.textareaId);
+        this.element.setAttribute('rows', 5);
+        this.element.setAttribute('cols', 20);
+    }
+    append() {
+        this.parent.appendChild(this.element);
+    }
+}

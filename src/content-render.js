@@ -1,15 +1,15 @@
-import { calculateDate } from "./time-stuff";
+import { calculateDate, clickedWeek, clickedDay, calculateTaskDaysLeft } from "./time-stuff";
 import { getDayTasks } from "./task-storage";
-import { createDiv } from './html-elements';
+import { Div } from './html-elements';
 
-const content = document.querySelector('.content');
+export const content = document.querySelector('.content');
 
-export function renderContent(dataWeek, dataDay) { //(str, num)
+export function renderContent() { //(str, num)
     clearContent();
-    renderHead(dataWeek, dataDay);
-    renderPriorityBlock('high');
-    renderPriorityBlock('low');
-    renderTasks(dataWeek, dataDay);
+    renderHead();
+    (new Div('content_high', content)).create();
+    (new Div('content_low', content)).create();
+    renderTasks();
 }
 
 export function clearContent() {
@@ -18,46 +18,75 @@ export function clearContent() {
     }
 }
 
-function renderHead (dataWeek, dataDay) {
-    const div = createDiv('content_head', content);
-    createDiv('content_head_blank', div)
-    renderDate (dataWeek, dataDay, div);
-    renderAddButton(div);
+function renderHead() {
+    const div = (new Div('content_head', content)).create();
+    const blank = (new Div('content_head_blank', div.element)).create();
+    renderDate(div.element);
+    renderAddButton(div.element);
 }
 
-function renderDate(dataWeek, dataDay, parent) {
-    const div = createDiv('content_head_date', parent);
-    div.textContent = calculateDate(dataWeek, dataDay);
+function renderDate(parent) {
+    const div = (new Div('content_head_date', parent)).create();
+    div.element.textContent = calculateDate(clickedWeek, clickedDay);
 }
 
 function renderAddButton(parent) {
-    const button = createDiv('content_head_add-button', parent);
-    button.textContent = '+Add Task';
-    button.setAttribute('id', 'add')
+    const button = (new Div('content_head_add-button', parent)).create();
+    button.element.textContent = '+Add Task';
+    button.element.setAttribute('id', 'add')
 }
 
-function renderPriorityBlock(priority) {
-    const wrapper = createDiv(`content_${priority}`, content);
-}
-
-function renderTasks(dataWeek, dataDay) {
-    const dayTasks = getDayTasks(dataWeek, dataDay);
+function renderTasks() {
+    const dayTasks = getDayTasks(clickedWeek, clickedDay);
     dayTasks.forEach(task => renderSingleTask(task));
 }
 
 function renderSingleTask(obj) {
+    const wrapper = renderSingleTaskDiv(obj);
+    renderSingleTaskCheckbox(obj, wrapper.element);
+    renderSingleTaskTitle(obj, wrapper.element);
+    renderSingleTaskEditButton(obj, wrapper.element);
+    renderSingleTaskExpiration(obj, wrapper.element);
+    renderSingleTaskDeleteButton(obj, wrapper.element);
+}
+
+function renderSingleTaskDiv(obj) {
     const highPrio = document.querySelector('.content_high');
     const lowPrio = document.querySelector('.content_low');
-    let wrapper;
-
     if (obj.highPriority) {
-        wrapper = createDiv('content_task', highPrio);
+        return (new Div('content_task', highPrio)).create();
     } else if (!obj.highPriority) {
-        wrapper = createDiv('content_task', lowPrio);
+        return (new Div('content_task', lowPrio)).create();
     }
+}
 
-    const title = createDiv('content_task_title', wrapper);
-    const expiration = createDiv('content_task_expiration', wrapper);
-    title.textContent = obj.title;
-    expiration.textContent = 'SOON';
+function renderSingleTaskCheckbox(obj, parent) {
+    const div = (new Div('content_task_complete', parent)).create();
+    div.element.setAttribute('data-index', obj.index);
+    div.element.setAttribute('id', 'complete');
+}
+
+function renderSingleTaskTitle(obj, parent) {
+    const div = (new Div('content_task_title', parent)).create();
+    div.element.setAttribute('data-index', obj.index);
+    div.element.textContent = obj.title;
+}
+
+function renderSingleTaskExpiration(obj, parent) {
+    const div = (new Div('content_task_expiration', parent)).create();
+    div.element.textContent = calculateTaskDaysLeft(obj) + 'd left';
+}
+
+function renderSingleTaskEditButton(obj, parent) {
+    const div = (new Div('content_task_edit', parent)).create();
+    div.element.setAttribute('data-index', obj.index);
+    div.element.setAttribute('id', 'edit');
+    div.element.textContent = '✎';
+}
+
+function renderSingleTaskDeleteButton(obj, parent) {
+    const div = (new Div('content_task_delete', parent)).create();
+    div.element.setAttribute('data-index', obj.index);
+    div.element.setAttribute('id', 'delete');
+    div.element.textContent = '⛌';
 }

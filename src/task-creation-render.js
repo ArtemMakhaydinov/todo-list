@@ -1,72 +1,92 @@
-import { createDiv, createInput, createLabel, createTextarea } from './html-elements';
+import { Div, Form, Input, Label, Textarea } from './html-elements';
 import { clearContent } from './content-render';
+import { taskStorage } from './task-storage';
 
 export function renderNewTaskForm() {
     clearContent();
-    const form = createForm();
-    renderTitleForm(form);
-    renderDescriptionForm(form);
-    renderDurationAndPriority(form);
-    renderButtons(form);
-}
-
-export function createForm() {
-    const form = document.createElement('form');
     const content = document.querySelector('.content');
-    form.classList.add('content_form');
-    form.setAttribute('onsubmit', 'return false');
-    content.appendChild(form);
-    return form;
+    const form = (new Form('content_form', content)).create();
+    renderTitleForm(form.element);
+    renderDescriptionForm(form.element);
+    renderDurationAndPriority(form.element);
+    renderButtons(form.element);
 }
 
-function renderTitleForm(parent) {
-    const titleDiv = createDiv('content_form_title', parent);
-    createLabel('content_form_title_label', 'title', 'Title', titleDiv);
-    const input = createInput('content_form_title_input', 'title', 'text', titleDiv);
-    input.setAttribute('required', '');
+export function renderEditTaskForm(index) {
+    clearContent();
+    const content = document.querySelector('.content');
+    const form = (new Form('content_form', content)).create();
+    renderTitleForm(form.element, index);
+    renderDescriptionForm(form.element, index);
+    renderDurationAndPriority(form.element, index);
+    renderButtons(form.element, index);
 }
 
-function renderDescriptionForm(parent) {
-    const descriptionDiv = createDiv('content_form_description', parent);
-    createLabel('content_form_description_label', 'description', 'Description', descriptionDiv);
-    createTextarea('content_form_description_input', 'description', descriptionDiv);
+function renderTitleForm(parent, index) {
+    const div = (new Div('content_form_title', parent)).create();
+    const label = (new Label('content_form_title_label', 'title', 'Title', div.element)).create();
+    const input = (new Input('content_form_title_input', 'title', 'text', div.element)).create();
+    input.element.setAttribute('required', '');
+    if (typeof index !== 'undefined') {
+        input.element.value = taskStorage[index].title;
+    }
 }
 
-function renderDurationAndPriority(parent) {
-    const div = createDiv('content_form_dur-and-prio', parent);
-    renderPriorityForm(div);
-    renderDurationForm(div);
+function renderDescriptionForm(parent, index) {
+    const div = (new Div('content_form_description', parent)).create();
+    const label = (new Label('content_form_description_label', 'description', 'Description', div.element)).create();
+    const textarea = (new Textarea('content_form_description_input', 'description', div.element)).create();
+    if (typeof index !== 'undefined') {
+        textarea.element.value = taskStorage[index].description;
+    }
 }
 
-function renderDurationForm(parent) {
-    const durationDiv = createDiv('content_form_duration', parent);
-    createLabel('content_form_duration_label', 'duration', 'Duration', durationDiv);
-    const durationInput = createInput('content_form_duration_input', 'duration', 'number', durationDiv);
-    durationInput.setAttribute('value', 0);
-    durationInput.setAttribute('min', 0);
+function renderDurationAndPriority(parent, index) {
+    const div = (new Div('content_form_dur-and-prio', parent)).create();
+    renderPriorityForm(div.element, index);
+    renderDurationForm(div.element, index);
 }
 
-function renderPriorityForm(parent) {
-    const priorityDiv = createDiv('content_form_priority', parent);
-    createLabel('content_form_priority_label', 'priority', 'High Priority', priorityDiv);
-    const input = createInput('content_form_priority_input', 'priority', 'checkbox', priorityDiv);
-    input.setAttribute('checked', '');
+function renderDurationForm(parent, index) {
+    const div = (new Div('content_form_duration', parent)).create();
+    const label = (new Label('content_form_duration_label', 'duration', 'Duration', div.element)).create();
+    const input = (new Input('content_form_duration_input', 'duration', 'number', div.element)).create();
+    input.element.setAttribute('value', 0);
+    input.element.setAttribute('min', 0);
+    if (typeof index !== 'undefined') {
+        input.element.value = taskStorage[index].duration;
+    }
 }
 
-function renderButtons(parent) {
-    const buttonsDiv = createDiv('content_form_buttons', parent);
-    renderAddButton(buttonsDiv);
-    renderCancelButton(buttonsDiv);
+function renderPriorityForm(parent, index) {
+    const div = (new Div('content_form_priority', parent)).create();
+    const label = (new Label('content_form_priority_label', 'priority', 'High Priority', div.element)).create();
+    const input = (new Input('content_form_priority_input', 'priority', 'checkbox', div.element)).create();
+    input.element.setAttribute('checked', '');
+    if (typeof index !== 'undefined') {
+        input.element.checked = taskStorage[index].highPriority;
+    }
 }
 
-function renderAddButton(parent) {
-    const submitButton = createInput('content_form_button_submit', 'submit', 'submit', parent);
-    submitButton.setAttribute('value', 'Add Task');
+function renderButtons(parent, index) {
+    const div = (new Div('content_form_buttons', parent)).create();
+    renderAddButton(div.element, index);
+    renderCancelButton(div.element);
+}
+
+function renderAddButton(parent, index) {
+    const input = (new Input('content_form_button_submit', 'submit_new', 'submit', parent)).create();
+    input.element.setAttribute('value', 'Add Task');
+    if (typeof index !== 'undefined') {
+        input.element.dataset.index = index;
+        input.element.setAttribute('value', 'Edit Task');
+        input.element.setAttribute('id', 'submit_edit');
+    }
 }
 
 function renderCancelButton(parent) {
-    const cancelButton = createDiv('content_form_button_cancel', parent);
-    cancelButton.textContent = 'Cancel';
-    cancelButton.setAttribute('type', 'button');
-    cancelButton.setAttribute('id', 'cancel');
+    const div = (new Div('content_form_button_cancel', parent)).create();
+    div.element.textContent = 'Cancel';
+    div.element.setAttribute('type', 'button');
+    div.element.setAttribute('id', 'cancel_form');
 }
