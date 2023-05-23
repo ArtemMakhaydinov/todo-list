@@ -25,7 +25,8 @@ function findDayTasks(task) {
 
 export function deleteTask(index) {
     taskStorage.splice(index, 1);
-    if (taskStorage.length > 0) resortTasks();
+    if (taskStorage.length > 0) return resortTasks();
+    storeTasksLocally()
 }
 
 export function resortTasks() {
